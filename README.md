@@ -11,8 +11,9 @@ This repo is setup to use both Make and CMake. CMake support was added for CLion
 
 ### Basics
 
-- [ ] Get to [miniblink](https://github.com/1Bitsy/1bitsy-examples/tree/master/examples/1bitsy/miniblink)
-- [ ] Push a [Button](https://github.com/1Bitsy/1bitsy-examples/tree/master/examples/1bitsy/button)
+- [x] Get to [miniblink](https://github.com/1Bitsy/1bitsy-examples/tree/master/examples/1bitsy/miniblink)
+- [x] Push a [Button](https://github.com/1Bitsy/1bitsy-examples/tree/master/examples/1bitsy/button)
+
 
 Timers?
 
@@ -20,6 +21,7 @@ https://github.com/libopencm3/libopencm3-examples/tree/master/examples/stm32/f3/
 
 ### Intermediate
 
+7 seg display
 ???
 
 ### Hard

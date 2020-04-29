@@ -2,40 +2,42 @@
 #include <libopencm3/stm32/rcc.h>
 
 /*
-* Blinks onboard LED (PE8)
+* Blinks onboard LED @ PE8
 */
 
+void delay(long time) {
+    volatile long count = time;
+    while (count--) {
+        __asm__("nop");
+    }
+}
+
 static void gpio_setup(void) {
-  /* NOTE: we are not setting up any clocks, this means the MCU will run
-   * on default settings using the internal oscillator.
-   */
+    // Enable port by enabling it's clock
+    // pg 148: enable GPIO clock for port E - RCC_AHBENR: IOPE EN = 1
+    rcc_periph_clock_enable(RCC_GPIOE);
 
-  // Enable GPIOA clock
-  // Manually:
-  // RCC_AHB1ENR |= RCC_AHB1ENR_IOPAEN;
-  rcc_periph_clock_enable(RCC_GPIOE);
-
-  // Set GPIO8 (in GPIO port A to 'output push-pull'
-  // Manually:
-  // GPIOA_CRH = (GPIO_CNF_OUTPUT_PUSHPULL << (((8 - 8) * 0) + 2));
-  // GPIOA_CRH |= (GPIO_MODE_OUTPUT_2_MHZ << ((8 - 8) * 0));
-  gpio_mode_setup(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO12);
+    // Set control registers for port E pin 8
+    // pg 237: general purpose output (open drain) - GPIOE MODER: MODER8 = 01
+    // pg 237: set pin to push-pull - GPIOE_OTYPER: OT8 = 0
+    // pg 238: set pin to high speed - GPIOE_OSSPEEDER: OSPEEDR8 = 11
+    // pg 238: set pin to pull up / pull down - GPIOE_PUPDR: PUPDR8 = 00
+    gpio_mode_setup(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO8);
 }
 
 int main(void) {
-  gpio_setup();
+    /* NOTE: we are not setting up any clocks, this means the MCU will run
+     * on default settings using the internal oscillator.
+     */
 
-  // Blink the LED (PA8) on the board
-  int i;
-  int j = 0;
-  while (1) {
-    // toggle LED on/off
-    gpio_toggle(GPIOE, GPIO12);
-    for (i = 0; i < 1000000; i++) {
-      __asm__("nop");
+    gpio_setup();
+
+    // Blink the LED (PE8) on the board
+    while (1) {
+        // toggle LED on/off
+        gpio_toggle(GPIOE, GPIO8);
+        delay(100000);
     }
-    j++;
-  }
 
-  return 0;
+    return 0;
 }

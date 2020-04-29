@@ -2,24 +2,24 @@
 #include <libopencm3/stm32/gpio.h>
 
 static void clock_setup(void) {
-    // set STM32 to 168 MHz
-    rcc_clock_setup_hse_3v3(&rcc_hse_25mhz_3v3[RCC_CLOCK_3V3_168MHZ]);
+    // set STM32 to 64 MHz
+    rcc_clock_setup_hsi(&rcc_hsi_configs[RCC_CLOCK_HSI_64MHZ]);
 }
 
 static void gpio_setup(void) {
-    // Enable GPIOA clock
-    rcc_periph_clock_enable(RCC_GPIOA);
+    // Enable GPIOE clock
+    rcc_periph_clock_enable(RCC_GPIOE);
 
-    // Set GPIO8 (in GPIO port A) to 'output push-pull'
-    gpio_mode_setup(GPIOA, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO8);
+    // Set GPIO8 (in GPIO port E) to 'output push-pull'
+    gpio_mode_setup(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO11);
 }
 
 static void button_setup(void) {
-    // Enable GPIOC clock
-    rcc_periph_clock_enable(RCC_GPIOC);
+    // Enable GPIOA clock
+    rcc_periph_clock_enable(RCC_GPIOA);
 
-    // Set GPIO1 (in GPIO port C) to 'input open-drain'
-    gpio_mode_setup(GPIOC, GPIO_MODE_INPUT, GPIO_PUPD_NONE, GPIO1);
+    // Set GPIO0 (in GPIO port A) to 'input open-drain'
+    gpio_mode_setup(GPIOA, GPIO_MODE_INPUT, GPIO_PUPD_NONE, GPIO0);
 }
 
 int main(void) {
@@ -27,16 +27,13 @@ int main(void) {
     button_setup();
     gpio_setup();
 
-    // Blink the LED (PA8) on the board
-    int i;
-    uint16_t portc = 0;
+    // Blink the LED (PE11) on the board
     while (1) {
 
-        portc = GPIOC_IDR;
-        if ( (portc & (1 << 1)) != 0) {
-            gpio_set(GPIOA, GPIO8);
+        if (gpio_get(GPIOA, GPIO0)) {
+            gpio_set(GPIOE, GPIO11);
         } else {
-            gpio_clear(GPIOA, GPIO8);
+            gpio_clear(GPIOE, GPIO11);
         }
 
         __asm__("nop");
