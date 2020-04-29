@@ -20,11 +20,11 @@
 
 /* Linker script for ST STM32F3DISCOVERY (STM32F303VCT6, 256k flash, 48k RAM). */
 
-/* Define memory regions. */
+/* Memory Spaces Definitions */
 MEMORY
 {
-	rom (rx) : ORIGIN = 0x08000000, LENGTH = 256k
-	ram (rwx) : ORIGIN = 0x20000000, LENGTH = 48K
+	rom (rx) : ORIGIN = 0x08000000, LENGTH = 256K
+	ram (rwx) : ORIGIN = 0x20000000, LENGTH = 40K
 }
 
 /* Include the common ld script. */

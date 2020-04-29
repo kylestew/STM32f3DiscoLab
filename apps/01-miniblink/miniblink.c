@@ -2,7 +2,7 @@
 #include <libopencm3/stm32/rcc.h>
 
 /*
-* Blinks onboard LED (PA8)
+* Blinks onboard LED (PE8)
 */
 
 static void gpio_setup(void) {
@@ -13,13 +13,13 @@ static void gpio_setup(void) {
   // Enable GPIOA clock
   // Manually:
   // RCC_AHB1ENR |= RCC_AHB1ENR_IOPAEN;
-  rcc_periph_clock_enable(RCC_GPIOA);
+  rcc_periph_clock_enable(RCC_GPIOE);
 
   // Set GPIO8 (in GPIO port A to 'output push-pull'
   // Manually:
   // GPIOA_CRH = (GPIO_CNF_OUTPUT_PUSHPULL << (((8 - 8) * 0) + 2));
   // GPIOA_CRH |= (GPIO_MODE_OUTPUT_2_MHZ << ((8 - 8) * 0));
-  gpio_mode_setup(GPIOA, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO8);
+  gpio_mode_setup(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO12);
 }
 
 int main(void) {
@@ -30,7 +30,7 @@ int main(void) {
   int j = 0;
   while (1) {
     // toggle LED on/off
-    gpio_toggle(GPIOA, GPIO8);
+    gpio_toggle(GPIOE, GPIO12);
     for (i = 0; i < 1000000; i++) {
       __asm__("nop");
     }
