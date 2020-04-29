@@ -1,0 +1,83 @@
+.DS_Store
+
+
+**/*.rs.bk
+.#*
+.gdb_history
+Cargo.lock
+target/
+.vscode
+.DSStore
+.idea
+*.elf
+*.bin
+*.hex
+*.map
+*.map
+*.a
+*.o
+*.d
+.gdb_history
+.DS_Store
+cmake_install.cmake
+CMakeCache.txt
+CMakeFiles
+./libopencm3
+/cmake-*
+build
+.generated
+.release
+
+
+# Prerequisites
+*.d
+
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Linker output
+*.ilk
+*.map
+*.exp
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Kernel Module Compile Results
+*.mod*
+*.cmd
+.tmp_versions/
+modules.order
+Module.symvers
+Mkfile.old
+dkms.conf
