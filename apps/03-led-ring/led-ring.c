@@ -1,9 +1,7 @@
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/rcc.h>
 
-/*
-* Blinks onboard LED @ PE8
-*/
+#include <LedDial/LedDial.h>
 
 void delay(long time) {
     volatile long count = time;
@@ -23,19 +21,29 @@ static void gpio_setup(void) {
     // pg 238: set pin to high speed - GPIOE_OSSPEEDER: OSPEEDR8 = 11
     // pg 238: set pin to pull up / pull down - GPIOE_PUPDR: PUPDR8 = 00
     gpio_mode_setup(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO8);
+    gpio_mode_setup(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO9);
+    gpio_mode_setup(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO10);
+    gpio_mode_setup(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO11);
+    gpio_mode_setup(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO12);
+    gpio_mode_setup(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO13);
+    gpio_mode_setup(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO14);
+    gpio_mode_setup(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO15);
 }
 
 int main(void) {
-    // PE8-15
-    // LED ring is upper byte of port E
-    // how to abstract this into a driver?
-
     gpio_setup();
 
-    // Blink the LED (PE8) on the board
+    uint32_t* porte_bsrr = (GPIOE + 0x18);
+    LedDial_Create(porte_bsrr, 8);
+
     while (1) {
         // toggle LED on/off
-        gpio_toggle(GPIOE, GPIO8);
+//        gpio_toggle(GPIOE, GPIO8);
+
+        LedDial_TurnAllOn();
+        delay(100000);
+
+        LedDial_TurnAllOff();
         delay(100000);
     }
 
