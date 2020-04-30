@@ -33,18 +33,25 @@ static void gpio_setup(void) {
 int main(void) {
     gpio_setup();
 
-    uint32_t* porte_bsrr = (GPIOE + 0x18);
-    LedDial_Create(porte_bsrr, 8);
+    LedDial_Create((GPIOE + 0x18), 8);
+
+    int low = 0;
+    int high = 1;
+
+    LedDial_TurnOn(low);
+    LedDial_TurnOn(high);
 
     while (1) {
-        // toggle LED on/off
-//        gpio_toggle(GPIOE, GPIO8);
+        LedDial_TurnOff(low);
+        low++;
+        if (low > 7) low = 0;
 
-        LedDial_TurnAllOn();
+        high++;
+        if (high > 7) high = 0;
+        LedDial_TurnOn(high);
+
         delay(100000);
 
-        LedDial_TurnAllOff();
-        delay(100000);
     }
 
     return 0;
