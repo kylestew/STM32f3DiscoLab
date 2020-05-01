@@ -13,22 +13,25 @@ This repo is setup to use both Make and CMake. CMake support was added for CLion
 
 - [x] Get to [miniblink](https://github.com/1Bitsy/1bitsy-examples/tree/master/examples/1bitsy/miniblink)
 - [x] Push a [Button](https://github.com/1Bitsy/1bitsy-examples/tree/master/examples/1bitsy/button)
-- [ ] LED Ring Driver Library (with tests)
-
-- [ ] Debounce button press (https://www.youtube.com/watch?v=mlRM2UfrX4A&list=PL6PplMTH29SHgRPDufZhfMRoFwRAIrzOp&index=12)
+- [x] LED Ring Driver Library (with tests)
 - [ ] [ADC](https://github.com/libopencm3/libopencm3-examples/tree/master/examples/stm32/f3/stm32f3-discovery/adc) reading to LED
+- [ ] Timer Tick
 
-
-Timers?
-
-https://github.com/libopencm3/libopencm3-examples/tree/master/examples/stm32/f3/stm32f3-discovery
 
 ### Intermediate
+
+- [ ] [Debounce Button](https://www.youtube.com/watch?v=mlRM2UfrX4A&list=PL6PplMTH29SHgRPDufZhfMRoFwRAIrzOp&index=12)
+Character LCD
+https://www.youtube.com/watch?v=micDbBN9s9k&list=PL6PplMTH29SHgRPDufZhfMRoFwRAIrzOp&index=14
+
 
 7 seg display
 https://github.com/kylestew/BluePillTutorials/tree/master/04_7segment
 Command/Response console over serials (for debugging and testing)
 ???
+
+https://github.com/libopencm3/libopencm3-examples/tree/master/examples/stm32/f3/stm32f3-discovery
+
 
 ### Hard
 
