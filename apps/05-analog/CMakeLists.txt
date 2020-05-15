@@ -10,4 +10,5 @@ message(STATUS "SOURCE FILES : ${SOURCES}")
 add_executable(${PROJECT_NAME}.elf ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME}.elf opencm3_stm32f3)
+target_link_libraries(${PROJECT_NAME}.elf EasyUsart)
 target_link_libraries(${PROJECT_NAME}.elf LedDial)

@@ -4,12 +4,40 @@
 #include <libopencm3/stm32/adc.h>
 
 #include <LedDial/LedDial.h>
+#include <EasyUsart/EasyUsart.h>
 
 void delay(long time) {
     volatile long count = time;
     while (count--) {
         __asm__("nop");
     }
+}
+
+static void adc_setup(void) {
+    //ADC
+    rcc_periph_clock_enable(RCC_ADC12);
+    rcc_periph_clock_enable(RCC_GPIOA);
+
+    //ADC
+//    gpio_mode_setup(GPIOA, GPIO_MODE_ANALOG, GPIO_PUPD_NONE, GPIO0);
+//    gpio_mode_setup(GPIOA, GPIO_MODE_ANALOG, GPIO_PUPD_NONE, GPIO1);
+//    adc_power_off(ADC1);
+//    adc_set_clk_prescale(ADC1, ADC_CCR_CKMODE_DIV2);
+//    adc_set_single_conversion_mode(ADC1);
+//    adc_disable_external_trigger_regular(ADC1);
+//    adc_set_right_aligned(ADC1);
+//    /* We want to read the temperature sensor, so we have to enable it. */
+//    adc_enable_temperature_sensor();
+//    adc_set_sample_time_on_all_channels(ADC1, ADC_SMPR_SMP_61DOT5CYC);
+//    uint8_t channel_array[] = { 1 }; /* ADC1_IN1 (PA0) */
+//    adc_set_regular_sequence(ADC1, 1, channel_array);
+//    adc_set_resolution(ADC1, ADC_CFGR1_RES_12_BIT);
+//    adc_power_on(ADC1);
+//
+//    /* Wait for ADC starting up. */
+//    int i;
+//    for (i = 0; i < 800000; i++)
+//            __asm__("nop");
 }
 
 static void gpio_setup(void) {
@@ -19,61 +47,13 @@ static void gpio_setup(void) {
             GPIO8 | GPIO9 | GPIO10 | GPIO11 | GPIO12 | GPIO13 | GPIO14 | GPIO15);
 }
 
-static void usart_setup(void) {
-    /* Enable clocks for GPIO port C (for GPIO_USART1_TX) and USART1. */
-    rcc_periph_clock_enable(RCC_USART1);
-    rcc_periph_clock_enable(RCC_GPIOC);
-
-    /* Setup GPIO pin GPIO_USART1_TX/GPIO4 on GPIO port C for transmit. */
-    gpio_mode_setup(GPIOC, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO4 | GPIO5);
-    gpio_set_af(GPIOC, GPIO_AF7, GPIO4| GPIO5);
-
-    /* Setup UART parameters. */
-    usart_set_baudrate(USART1, 115200);
-    usart_set_databits(USART1, 8);
-    usart_set_stopbits(USART1, USART_STOPBITS_1);
-    usart_set_mode(USART1, USART_MODE_TX_RX);
-    usart_set_parity(USART1, USART_PARITY_NONE);
-    usart_set_flow_control(USART1, USART_FLOWCONTROL_NONE);
-
-    /* Finally enable the USART. */
-    usart_enable(USART1);
-}
-
-static void usart_print_int(uint32_t usart, int16_t value) {
-    int8_t i;
-    int8_t nr_digits = 0;
-    char buffer[25];
-
-    if (value < 0) {
-        usart_send_blocking(usart, '-');
-        value = value * -1;
-    }
-
-    if (value == 0) {
-        usart_send_blocking(usart, '0');
-    }
-
-    while (value > 0) {
-        buffer[nr_digits++] = "0123456789"[value % 10];
-        value /= 10;
-    }
-
-    for (i = nr_digits-1; i >= 0; i--) {
-        usart_send_blocking(usart, buffer[i]);
-    }
-
-    usart_send_blocking(usart, '\r');
-    usart_send_blocking(usart, '\n');
-}
-
 int main(void) {
     rcc_clock_setup_hsi(&rcc_hsi_configs[RCC_CLOCK_HSI_64MHZ]);
 
+    adc_setup();
     gpio_setup();
-//    adc_setup();
-    usart_setup();
 
+    Usart_Setup(USART1);
     LedDial_Create((GPIOE + 0x18), 8);
 
     int low = 0;
@@ -84,6 +64,14 @@ int main(void) {
 
     uint16_t temp = 123;
     while (1) {
+//        adc_start_conversion_regular(ADC1);
+//        while (!(adc_eoc(ADC1)));
+//        temp = adc_read_regular(ADC1);
+//        gpio_port_write(GPIOE, temp << 4);
+//        Usart_Print(temp);
+
+
+        // TODO: tie to temp
         LedDial_TurnOff(low);
         low++;
         if (low > 7) low = 0;
@@ -94,8 +82,6 @@ int main(void) {
 
         delay(1000000);
 
-
-        usart_print_int(USART1, temp);
     }
 
     return 0;

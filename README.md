@@ -14,7 +14,8 @@ This repo is setup to use both Make and CMake. CMake support was added for CLion
 - [x] Get to [miniblink](https://github.com/1Bitsy/1bitsy-examples/tree/master/examples/1bitsy/miniblink)
 - [x] Push a [Button](https://github.com/1Bitsy/1bitsy-examples/tree/master/examples/1bitsy/button)
 - [x] LED Ring Driver Library (with tests)
-- [ ] [ADC](https://github.com/libopencm3/libopencm3-examples/tree/master/examples/stm32/f3/stm32f3-discovery/adc) reading to LED
+- [x] USART
+- [ ] [ADC Reading](https://github.com/libopencm3/libopencm3-examples/tree/master/examples/stm32/f3/stm32f3-discovery/adc)
 - [ ] Timer Tick
 
 
